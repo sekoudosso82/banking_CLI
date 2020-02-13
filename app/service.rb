@@ -159,7 +159,10 @@ def get_start(owner)
           
               case (choice)
                   when 1
-                    user_acc_info.update_column(:status, "closed")
+                    # user_acc_info.update_column(:status, "closed")
+                    user_acc_info.destroy
+                    owner.destroy
+                    return 
                   when 2 
                     get_start(owner)
               end  

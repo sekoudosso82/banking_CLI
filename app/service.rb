@@ -71,7 +71,7 @@ def transfert_(sender)
             else
               puts "=*     Please enter the receiver id number"
               rec = gets.chomp.to_i
-              rec_acc = Account.find(rec)
+              rec_acc = Account.find_by_account_owner_id(rec)
               if rec_acc.status != "open"
                 puts "=*     Sorry, this account is closed"
               else
@@ -181,19 +181,25 @@ end
 def register_
   print "=*     Please enter your user_name      :  "
   new_user_name = gets.chomp
-  print "=*     Please enter your password       :  "
-  new_user_password = gets.chomp
-  print "=*     Please enter your phone num      :  "
-  new_user_phone = gets.chomp.to_i
-  print "=*     Please enter your initial amount :  "
-  new_user_balance = gets.chomp.to_i
-  nu = AccountOwner.create(user_name: new_user_name, 
-                      password: new_user_password, 
-                      phone: new_user_phone)
+  if (AccountOwner.find_by_user_name(new_user_name))
+    puts "=*     user_name already exist  "
+    puts "=*"*20
+    login_
+  else
+    print "=*     Please enter your password       :  "
+    new_user_password = gets.chomp
+    print "=*     Please enter your phone num      :  "
+    new_user_phone = gets.chomp.to_i
+    print "=*     Please enter your initial amount :  "
+    new_user_balance = gets.chomp.to_i
+    nu = AccountOwner.create(user_name: new_user_name, 
+                        password: new_user_password, 
+                        phone: new_user_phone)
 
-  Account.create(account_owner_id: nu.id, 
-                 balance: new_user_balance, 
-                 status: "open")
+    Account.create(account_owner_id: nu.id, 
+                  balance: new_user_balance, 
+                  status: "open")
+  end
 end 
 
 def open_account_(owner)

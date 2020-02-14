@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_12_225322) do
+ActiveRecord::Schema.define(version: 2020_02_14_105833) do
 
   create_table "account_owners", force: :cascade do |t|
     t.string "user_name"
     t.string "password"
     t.integer "phone"
+    t.index ["user_name"], name: "index_account_owners_on_user_name", unique: true
   end
 
   create_table "accounts", force: :cascade do |t|
